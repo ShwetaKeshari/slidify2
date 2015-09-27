@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shiny app to compare the Total Emission from PM2.5  by City from 1999 to 2008</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Shiny app to compare the Total Emission from PM2.5  by City from 1999 to 2008">
+  <meta name="author" content="Sweta">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Shiny app to compare the Total Emission from PM2.5  by City from 1999 to 2008</h1>
+    <h2>Shinny app for Data Products project</h2>
+    <p>Sweta<br/>student</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <article data-timings="">
+    <p>###Intro about the Data:</p>
+
+<p>Fine particulate matter (PM2.5) is an ambient air pollutant for which there is strong evidence that it is harmful to human health. </p>
+
+<p>In the United States, the Environmental Protection Agency (EPA) is tasked with setting national ambient air quality standards for fine PM and for tracking the emissions of this pollutant into the atmosphere. Approximatly every 3 years, the EPA releases its database on emissions of PM2.5.</p>
+
+<p>######Data was downloded from the </p>
+
+<p>url:&quot;<a href="https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip">https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2FNEI_data.zip</a>&quot;.</p>
+
+<p>##Question of Interest:</p>
+
+<p>Have total emissions from PM2.5 decreased in the Baltimore City, Maryland (fips == &quot;24510&quot;) and Los Angeles(fips=&quot;06037&quot;) from 1999 to 2008? </p>
+
+<pre><code>##         fips      SCC Pollutant Emissions  type year
+## 114288 24510 10100601  PM25-PRI     6.532 POINT 1999
+## 114296 24510 10200601  PM25-PRI    78.880 POINT 1999
+## 114300 24510 10200602  PM25-PRI     0.920 POINT 1999
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <article data-timings="">
+    <p>####Code for the Shiny App:</p>
+
+<pre><code class="r">library(shiny)
+shinyApp(
+  ui=(
+    fluidPage(    
+      titlePanel(h3(&quot;Comparison of Total Emission from PM2.5 by City from 1999 to 2008&quot;)),
+ sidebarLayout(         sidebarPanel(  selectInput(&quot;region&quot;, &quot;Choose the City:&quot;, 
+  choices=c(&quot;Baltimore&quot;,&quot;Los Angeles&quot;)) ),
+
+mainPanel(&quot;Have total emissions from PM2.5 decreased in the Baltimore City, Maryland and Los Angeles from 1999 to 2008? &quot; ,
+&quot;The overall total emisssion from Baltimore City and Los Angeles city has decreased from 1990 to 2008 (over 10 year period) &quot;,
+  plotOutput(&quot;Emissions&quot;))))), 
+
+server=(function(input, output) {output$Emissions &lt;- renderPlot({    if (input$region==&quot;Baltimore&quot;){barplot(height = c(47103.19,26968.79,22939.78,32135.48),                                                                                     main=input$region,                                                                col=&quot;red&quot;, y=&quot;Total Amount of PM2.5 emitted, in tons&quot;,                           xlab=&quot;Year&quot;)
+axis(1,c(1:4),c(1999,2002,2004,2008))}
+else if (input$region==&quot;Los Angeles&quot;){barplot(height=c(3274.180,2453.916,3091.354,1862.282),                main=input$region,col=&quot;red&quot;,                                                ylab=&quot;Total Amount of PM2.5 emitted, in tons&quot;,                                xlab=&quot;Year&quot;)
+  axis(1,c(1:4),c(1999,2002,2004,2008))}  })})  )
+</code></pre>
+
+<p>&lt;!--html<em>preserve--&gt;&lt;iframe src=&quot;app7c8e62de94687a81d988151904d3d479/?w=&amp;</em><em>subapp</em>_=1&quot; width=&quot;100%&quot; height=&quot;400&quot; class=&quot;shiny-frame&quot;&gt;</iframe>&lt;!--/html_preserve--&gt;</p>
+
+<pre><code class="r">runApp(app)
+</code></pre>
+
+<pre><code>## Error in runApp(app): object &#39;app&#39; not found
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <article data-timings="">
+    <p>Disclamer: I tried running shiny app in slidify but it does not work somehow, tried to find materials on internet but was of no help. Thats why I am putting the plot manually.</p>
+
+<p>When we input city as Baltimore: the plot looks like this
+<img src="assets/fig/unnamed-chunk-3-1.png" alt="plot of chunk unnamed-chunk-3"> </p>
+
+<p>The total emissions for Baltimore city have decreased from 1999 to 2008</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <article data-timings="">
+    <p>When we input city as Los Angeles: the plot looks like this
+<img src="assets/fig/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4"> 
+The overall emissions for Los Angeles city have decreased from 1999 to 2008</p>
+
+<p>###Directives on how to visualize this Shiny application
+THe shiny application can be viewed on this website
+url:&quot;<a href="https://shweta.shinyapps.io/Shinyapp">https://shweta.shinyapps.io/Shinyapp</a>&quot;</p>
+
+<hr>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='NA'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='NA'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='NA'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='NA'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
